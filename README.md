@@ -1,43 +1,64 @@
-Automates setup by creating a Python virtual environment, installing required tools (`uv`, `jupyterlab`, `streamlit`), and ensuring Git & VS Code are available.
-Includes OS-specific logic to optionally activate the environment after setup.
+### 1. **Linux (Using APT or YUM)**:
 
-**Requirements:**
+* **Ubuntu/Debian-based**:
 
-Python 3.11+ must be installed
-The script uses **python3 -m venv** and expects Python 3.
+  ```bash
+  sudo apt update
+  sudo apt install python3
+  ```
+* **Fedora/CentOS-based**:
 
-Check with:
-**python3 --version**
+  ```bash
+  sudo yum install python3
+  ```
 
-**Linux (Debian/Ubuntu):**
-Required:
-**sudo apt update**
-**sudo apt install -y python3.11 python3.11-venv python3.11-distutils curl git unzip**
+**Verify Installation**:
 
-**For Windows:**
+```bash
+python3 --version
+```
 
-Open Command Prompt:
-Press Windows + R, type cmd, and press Enter.
+### 2. **Windows (Using `winget` or Installer)**:
 
-Download Python Using curl:
-First, ensure that curl is installed on your system (it comes pre-installed with Windows 10 and 11). To download Python, run the following command:
-**curl -O https://www.python.org/ftp/python/3.x.x/python-3.11.3.exe**
+* **Using `winget` (Windows Package Manager)**:
+  Open **Command Prompt** and run:
 
-**For MacOS:**
+  ```bash
+  winget install Python.Python.3.x
+  ```
 
-Open Terminal:
-Press Cmd + Space, type Terminal, and press Enter to open the Terminal.
+  (Replace `3.x` with the desired Python version, like `3.11`).
 
-Install Homebrew (if not already installed):
-If you don’t have Homebrew installed, you can install it by running the following command:
-**/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"**
-Follow the on-screen instructions to complete the installation.
+* **Using Python Installer** (Alternative method):
+  Download the installer from [python.org](https://www.python.org/downloads/), then run the `.exe` file.
 
-Install Python Using Homebrew:
-Once Homebrew is installed, run the following command to install the latest version of Python:
-**brew install python**
+**Verify Installation**:
 
-Verify Python Installation:
-After installation, you can verify that Python is installed correctly by typing:
-**python3 --version**
+```bash
+python --version
+```
 
+### 3. **macOS (Using Homebrew)**:
+
+* **Install Homebrew (if not installed)**:
+
+  ```bash
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  ```
+* **Install Python**:
+
+  ```bash
+  brew install python
+  ```
+
+**Verify Installation**:
+
+```bash
+python3 --version
+```
+
+### Summary:
+
+* **Linux**: Use `apt` (Ubuntu/Debian) or `yum` (Fedora/CentOS) to install Python.
+* **Windows**: Use **winget** for easy installation or manually download the installer from **python.org**.
+* **macOS**: Use **Homebrew** to install Python.
