@@ -14,10 +14,27 @@ def run_command(command, exit_on_error=True):
         print("❌ Command failed. Exiting.")
         sys.exit(1)
 
-def create_virtualenv():
+def install_uv():
+    # Check if uv is installed globally
+    result = subprocess.run("uv --version", shell=True, stdout=subprocess.DEVNULL)
+    if result.returncode != 0:
+        print("📦 Installing 'uv' globally using curl...")
+        os_name = platform.system()
+        if os_name == "Linux":
+            run_command("curl -sSL https://github.com/urxvt/uv/releases/latest/download/uv-linux-x86_64.tar.gz | tar -xz -C /usr/local/bin")
+        elif os_name == "Darwin":
+            run_command("curl -L https://github.com/urxvt/uv/releases/latest/download/uv-darwin-x86_64.tar.gz | tar -xz -C /usr/local/bin")
+        elif os_name == "Windows":
+            run_command("curl -LO https://github.com/urxvt/uv/releases/latest/download/uv-win64.zip")
+            run_command("unzip uv-win64.zip -d C:\\Program Files\\uv")
+            print("Make sure 'C:\\Program Files\\uv' is added to your PATH.")
+    else:
+        print("✅ 'uv' is already installed globally.")
+
+def create_virtualenv_with_uv():
     if not VENV_DIR.exists():
-        print(f"📦 Creating virtual environment in '{VENV_DIR}'...")
-        run_command(f"python3 -m venv {VENV_DIR}")
+        print(f"📦 Creating virtual environment in '{VENV_DIR}' using 'uv'...")
+        run_command(f"uv venv {VENV_DIR}")
     else:
         print(f"✅ Virtual environment already exists at '{VENV_DIR}'")
 
@@ -73,8 +90,9 @@ def install_vscode():
         run_command("start stable")
 
 def main():
-    create_virtualenv()
-    venv_python = create_virtualenv()
+    install_uv()  # Install uv globally
+    create_virtualenv_with_uv()  # Create virtual environment with uv
+    venv_python = VENV_DIR / "bin" / "python" if platform.system() != "Windows" else VENV_DIR / "Scripts" / "python.exe"
     ensure_uv_in_venv(venv_python)
 
     packages = [
@@ -95,4 +113,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
